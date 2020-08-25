@@ -1,0 +1,13 @@
+{
+    "team_name":"Illuminati",
+    "jira_ref":"DST-1234",
+    "process_name":"TX_123_SRC_TGT",
+    "pattern_type":"25",
+    "bau_stream":"207",
+    "backfill_stream":"150",
+    "sandbox":"DEV04",
+    "target_db":"{ENV}_IDL_TXN_T",
+    "target_table":"column_metadata",
+    "datestamp":"20200621",
+    "existing_table":"Y"
+ }

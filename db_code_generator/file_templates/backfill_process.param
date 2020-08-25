@@ -1,0 +1,45 @@
+.LOGON nztddev.unix.anznb.co.nz/{ENV}_IDL_ELT,$tdwallet({ENV}_IDL_ELT_TDW);
+.SET TITLEDASHES OFF;
+--start od <param_date>
+BT;
+	CALL {ENV}_GCFR_CP_P.GCFR_CP_StreamSpecBD_Start($stream, '<param_date>', 6, :oRtnCode, :oRtnMsg);
+ET;
+SEL COUNT(*) AS error_count FROM {ENV}_GCFR_V.gcfr_error_log
+WHERE td_session_id = SESSION AND CAST(update_ts AS DATE) = CURRENT_DATE
+HAVING error_count > 0;
+.IF ACTIVITYCOUNT > 0 THEN .QUIT 8;
+BT;
+        --INITIATE STREAM
+	CALL {ENV}_GCFR_CP_P.GCFR_CP_Stream_Start($stream, '',6, :oRtnCode, :oRtnMsg);
+ET;
+SEL COUNT(*) AS error_count FROM {ENV}_GCFR_V.gcfr_error_log
+WHERE td_session_id = SESSION AND CAST(update_ts AS DATE) = CURRENT_DATE
+HAVING error_count > 0;
+.IF ACTIVITYCOUNT > 0 THEN .QUIT 8;
+BT;
+        CALL  {ENV}_GCFR_PP_P.$pattern('$process_name', 6, :oRtnCode, :oRtnMsg);
+ET;
+SEL COUNT(*) AS error_count FROM {ENV}_GCFR_V.gcfr_error_log
+WHERE td_session_id = SESSION AND CAST(update_ts AS DATE) = CURRENT_DATE
+HAVING error_count > 0;
+.IF ACTIVITYCOUNT > 0 THEN .QUIT 8;
+--END STREAM
+BT;
+        CALL {ENV}_GCFR_CP_P.GCFR_CP_Stream_End($stream,6,  :oRtnCode, :oRtnMsg);
+ET;
+SEL COUNT(*) AS error_count FROM {ENV}_GCFR_V.gcfr_error_log
+WHERE td_session_id = SESSION AND CAST(update_ts AS DATE) = CURRENT_DATE
+HAVING error_count > 0;
+.IF ACTIVITYCOUNT > 0 THEN .QUIT 8;
+BT;
+        --END BUSINESS DATE
+        CALL {ENV}_GCFR_CP_P.GCFR_CP_StreamBusDate_End($stream, 6, :oRtnCode, :oRtnMsg);
+ET;
+SEL COUNT(*) AS error_count FROM {ENV}_GCFR_V.gcfr_error_log
+WHERE td_session_id = SESSION AND CAST(update_ts AS DATE) = CURRENT_DATE
+HAVING error_count > 0;
+.IF ACTIVITYCOUNT > 0 THEN .QUIT 8;
+--End of <param_date>
+.EXPORT RESET
+.LOGOFF
+.EXIT
