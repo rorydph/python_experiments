@@ -1,8 +1,9 @@
-import unittest, filecmp
+import unittest
 from pathlib import Path
 
 class TestStringMethods(unittest.TestCase):
 
+    # compare a generated file against a reference file
     def test_files(self):
         self.maxDiff = None
         gen = Path('./gen_file.param').read_text()
