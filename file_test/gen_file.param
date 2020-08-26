@@ -33,7 +33,7 @@ HAVING error_count > 0;
 .IF ACTIVITYCOUNT > 0 THEN .QUIT 8;
 BT;
         --END BUSINESS DATE
-        CALL {ENV}_GCFR_CP_P.GCFR_CP_StreamBusDate_End(500, 6, :oRtnCode, :oRtnMsg);
+        CALL {ENV}_GCFR_CP_P.GCFR_CP_StreamBusDate_End(200, 6, :oRtnCode, :oRtnMsg);
 ET;
 SEL COUNT(*) AS error_count FROM {ENV}_GCFR_V.gcfr_error_log
 WHERE td_session_id = SESSION AND CAST(update_ts AS DATE) = CURRENT_DATE
