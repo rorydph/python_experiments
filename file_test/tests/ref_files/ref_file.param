@@ -17,7 +17,7 @@ WHERE td_session_id = SESSION AND CAST(update_ts AS DATE) = CURRENT_DATE
 HAVING error_count > 0;
 .IF ACTIVITYCOUNT > 0 THEN .QUIT 8;
 BT;
-        CALL  {ENV}_GCFR_PP_P.25('TX_123_TEST', 6, :oRtnCode, :oRtnMsg);
+        CALL  {ENV}_GCFR_PP_P.GCFR_PP_TfmTxn('TX_123_TEST', 6, :oRtnCode, :oRtnMsg);
 ET;
 SEL COUNT(*) AS error_count FROM {ENV}_GCFR_V.gcfr_error_log
 WHERE td_session_id = SESSION AND CAST(update_ts AS DATE) = CURRENT_DATE

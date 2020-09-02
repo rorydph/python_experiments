@@ -2,7 +2,7 @@
 .SET TITLEDASHES OFF;
 --start od <param_date>
 BT;
-	CALL {ENV}_GCFR_CP_P.GCFR_CP_StreamSpecBD_Start(200, '<param_date>', 6, :oRtnCode, :oRtnMsg);
+	CALL {ENV}_GCFR_CP_P.GCFR_CP_StreamSpecBD_Start(500, '<param_date>', 6, :oRtnCode, :oRtnMsg);
 ET;
 SEL COUNT(*) AS error_count FROM {ENV}_GCFR_V.gcfr_error_log
 WHERE td_session_id = SESSION AND CAST(update_ts AS DATE) = CURRENT_DATE
@@ -17,7 +17,7 @@ WHERE td_session_id = SESSION AND CAST(update_ts AS DATE) = CURRENT_DATE
 HAVING error_count > 0;
 .IF ACTIVITYCOUNT > 0 THEN .QUIT 8;
 BT;
-        CALL  {ENV}_GCFR_PP_P.25('TX_123_TEST', 6, :oRtnCode, :oRtnMsg);
+        CALL  {ENV}_GCFR_PP_P.GCFR_PP_TfmTxn('TX_123_TEST', 6, :oRtnCode, :oRtnMsg);
 ET;
 SEL COUNT(*) AS error_count FROM {ENV}_GCFR_V.gcfr_error_log
 WHERE td_session_id = SESSION AND CAST(update_ts AS DATE) = CURRENT_DATE
@@ -33,7 +33,7 @@ HAVING error_count > 0;
 .IF ACTIVITYCOUNT > 0 THEN .QUIT 8;
 BT;
         --END BUSINESS DATE
-        CALL {ENV}_GCFR_CP_P.GCFR_CP_StreamBusDate_End(200, 6, :oRtnCode, :oRtnMsg);
+        CALL {ENV}_GCFR_CP_P.GCFR_CP_StreamBusDate_End(500, 6, :oRtnCode, :oRtnMsg);
 ET;
 SEL COUNT(*) AS error_count FROM {ENV}_GCFR_V.gcfr_error_log
 WHERE td_session_id = SESSION AND CAST(update_ts AS DATE) = CURRENT_DATE
