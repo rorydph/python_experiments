@@ -19,4 +19,4 @@ def create_bkf_param(_filepath, _stream, _pattern, _process_name, _team_name, _j
     f2 = open(f'{_filepath}/{filename}', 'w')
     f2.write(filetext)
     f2.close()
-
+    print(f'Backfill param file {filename} generated out to {_filepath}')
